@@ -1,0 +1,84 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  
+  <!-- 用户配置区域 (物种和地址) -->
+  <view class="config-section">
+    <picker bindchange="bindSpeciesChange" value="{{speciesIndex}}" range="{{speciesList}}">
+      <view class="config-item">
+        <text class="config-label">🌱 植物种类：</text>
+        <text class="config-value">{{speciesList[speciesIndex]}}</text>
+      </view>
+    </picker>
+
+    <!-- 当选择其他时显示输入框 -->
+    <view class="config-item" wx:if="{{speciesList[speciesIndex] === '其他'}}">
+      <text class="config-label">✍️ 具体品种：</text>
+      <input class="config-input" placeholder="输入植物品种 (可留空)" bindinput="bindCustomSpeciesInput" value="{{customSpecies}}" />
+    </view>
+    
+    <picker mode="region" bindchange="bindRegionChange" value="{{region}}">
+      <view class="config-item">
+        <text class="config-label">📍 所在地区：</text>
+        <text class="config-value">{{region[0]}} {{region[1]}} {{region[2]}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 头部环境状态 -->
+  <view class="header">
+    <text class="title">实时环境状态</text>
+    <text class="time">更新时间：{{updateTime}}</text>
+  </view>
+
+  <!-- 数据展示卡片网格 -->
+  <view class="data-grid">
+    <view class="data-card">
+      <text class="label">空气温度</text>
+      <text class="value temp">{{currentData.temp}} <text class="unit">°C</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">空气湿度</text>
+      <text class="value hum">{{currentData.hum}} <text class="unit">%</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">光照强度</text>
+      <text class="value light">{{currentData.light}} <text class="unit">Lux</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">土壤水分</text>
+      <text class="value soil">{{currentData.soil}} <text class="unit">%</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">土壤温度</text>
+      <text class="value soilTemp">{{currentData.soilTemp}} <text class="unit">°C</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">土壤EC</text>
+      <text class="value soilEC">{{currentData.soilEC}} <text class="unit">ms/cm</text></text>
+    </view>
+    <view class="data-card">
+      <text class="label">土壤PH</text>
+      <text class="value soilPH">{{currentData.soilPH}}</text>
+    </view>
+  </view>
+
+  <!-- 历史数据图表 -->
+  <view class="chart-container">
+    <text class="section-title">24小时温湿度趋势</text>
+    <view class="echarts-box">
+      <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas>
+    </view>
+  </view>
+
+  <!-- AI 智能分析与建议 -->
+  <view class="ai-container">
+    <view class="ai-header">
+      <text class="section-title">✨ AI 智能养护建议</text>
+      <button class="ai-btn" bindtap="getAIAdvice" loading="{{isAILoading}}">获取建议</button>
+    </view>
+    <view class="ai-content">
+      <text class="ai-text" user-select="{{true}}">{{aiAdvice || '点击上方按钮，AI将根据当前环境数据生成专业的植物养护建议。'}}</text>
+    </view>
+  </view>
+
+</view>
