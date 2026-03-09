@@ -4,7 +4,7 @@ const axios = require('axios');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 // --- 配置 AI 大模型 API ---
-const API_KEY = 'sk-8906284cc1f44f1ba77cded19d55e9b2';
+const API_KEY = 'api';
 
 // 【请选择/修改你使用的模型端点和模型名称】
 // 例如：DeepSeek API
